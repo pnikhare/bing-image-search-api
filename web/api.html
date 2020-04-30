@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="all,follow">
+        <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <script type="text/javascript" src="javascript/jquery.min.js"></script>
+        <script type="text/javascript" src="javascript/popper.min.js"></script>
+        <script type="text/javascript" src="javascript/bootstrap.js"></script>
+
+        <title>Api-Doc</title>
+        <style>
+            .navbar-custom {
+                background-color: black;
+                color:white;
+                font-size : 17px;
+            }
+
+            a {
+                color: black;
+                text-decoration: none;
+            }
+            /*            a {
+                            background-color: transparent;
+                        }*/
+
+
+            a:-webkit-any-link {
+                color: -webkit-link;
+                cursor: pointer;
+                text-decoration: underline;
+            }
+
+            li {
+                text-align: -webkit-match-parent;
+            }
+            .nav {
+                padding-left: 0;
+                margin-bottom: 0;
+                list-style: none;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <br>
+            <nav class="navbar navbar-expand-sm navbar-custom col-md-12">
+                <h4> API Documentation </h4>
+            </nav>
+            <br/>
+            <h5> Image Search Api </h5>
+            <p> 
+                The Image Search API lets the user send a search query to Bing and get back a list of relevant images.
+
+            </p>
+            <b> Endpoints</b> <br>
+            To request images, send a GET request to one of the following URLs: <br/><br/>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td> http://159.203.103.124:8080/imageSearch/api/v1/images/search </td>
+                    <td> Returns images that are relevant to the users search query. </td>
+                </tr>
+                <tr>
+                    <td>http://159.203.103.124:8080/imageSearch/api/v1/images/details </td>
+                    <td> Returns insights about an image, such as webpages that include the image. </td>
+                </tr>
+                <tr>
+                    <td> http://159.203.103.124:8080/imageSearch/api/v1/images/trending </td>
+                    <td> Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches. </td>
+                </tr>
+            </table>
+            <br/>
+
+            
+            <div class="panel-group" >
+                <div class="card card-success">
+                    <div class="card-heading">
+                        <a data-toggle="collapse" href="#collapse2" style="text-decoration:none;color:black;font-size:18px;">
+                            <button class="btn btn-success" style="width:100px">GET</button> &emsp; <b>/search </b> &emsp; Get relevant images for a given query
+                        </a>                        
+                    </div>
+                    <div id="collapse2" class="panel-collapse">
+                        <div class="card card-body">
+                            <b> Request URL </b>
+                            http://159.203.103.124:8080/imageSearch/api/v1/images/search[?q][&count][&offset][&mkt][&safeSearch]
+                            <br><br>
+                            <b> Request Parameters </b>
+                            <table class="table table-bordered"> 
+                                <tr>
+                                    <th> Parameters </th>
+                                    <th> Required </th>
+                                    <th> Type </th>
+                                    <th> Description/value </th>
+                                </tr>
+
+                                <tr>
+                                    <td>q</td>
+                                    <td>yes</td>
+                                    <td>string</td>
+                                    <td>The user's search query string. For Example : "cat","dogs"</td>
+                                </tr>
+                                <tr>
+                                    <td>count</td>
+                                    <td>optional</td>
+                                    <td>number</td>
+                                    <td>The number of image results to return in the response. The actual number delivered may be less than requested.</td>
+                                </tr>
+                                <tr>
+                                    <td>offset</td>
+                                    <td>optional</td>
+                                    <td>number</td>
+                                    <td>The zero-based offset that indicates the number of image results to skip before returning results.</td>
+                                </tr>
+                                <tr>
+                                    <td>mkt</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>The market where the results come from. Typically, this is the country where the user is making the request from; however, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form. For example: en-US.<br>
+                                        Full list of supported markets:
+                                        es-AR,en-AU,de-AT,nl-BE,fr-BE,pt-BR,en-CA,fr-CA,es-CL,da-DK,fi-FI,fr-FR,de-DE,zh-HK,en-IN,en-ID,en-IE,it-IT,ja-JP,ko-KR,en-MY,es-MX,nl-NL,en-NZ,no-NO,zh-CN,pl-PL,pt-PT,en-PH,ru-RU,ar-SA,en-ZA,es-ES,sv-SE,fr-CH,de-CH,zh-TW,tr-TR,en-GB,en-US,es-US</td>
+                                </tr>
+                                <tr>
+                                    <td>safeSearch</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>A filter used to filter results for adult content. For example,"Strict", "Moderate", "Off"</td>
+                                </tr>
+                            </table>
+                            <b> Sample HTTP Request </b>
+                            GET http://159.203.103.124:8080/imageSearch/api/v1/images/search?q=cats&count=10&offset=0&mkt=en-us&safeSearch=Moderate HTTP/1.1
+                            <br><br>
+                            <b> Responses </b> 
+                            Content type : application/json </br>
+                            Code : 200 <br>
+                            Description : OK <br/> <br> 
+                            <b> Sample Response</b>
+                            <pre>
+{
+    "_type": "Images",
+    "instrumentation": {
+        "_type": "ResponseInstrumentation"
+    },
+    "readLink": "https://api.cognitive.microsoft.com/api/v7/images/search?q=cat",
+    "webSearchUrl": "https://www.bing.com/images/search?q=cat&FORM=OIIARP",
+    "queryContext": {
+        "originalQuery": "cat",
+        "alterationDisplayQuery": "cat",
+        "alterationOverrideQuery": "+cat",
+        "alterationMethod": "AM_JustChangeIt",
+        "alterationType": "CombinedAlterationsChained"
+    },
+    "totalEstimatedMatches": 1000,
+    "nextOffset": 36,
+    "currentOffset": 0,
+    "value": [
+        {
+            "webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO&q=cat&id=6DD8DF58EC10C1C064861614128C3ACF5F6F34C1&simid=607992215728950289",
+            "name": "Cat intelligence - Wikipedia",
+            "thumbnailUrl": "https://tse2.mm.bing.net/th?id=OIP.p6_V6WAn8CkXi9rpwVTVzQHaHa&pid=Api",
+            "datePublished": "2019-09-13T20:11:00.0000000Z",
+            "isFamilyFriendly": true,
+            "creativeCommons": "AttributionShareAlike",
+            "contentUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/An_up-close_picture_of_a_curious_male_domestic_shorthair_tabby_cat.jpg/1200px-An_up-close_picture_of_a_curious_male_domestic_shorthair_tabby_cat.jpg",
+            "hostPageUrl": "https://en.wikipedia.org/wiki/Cat_intelligence",
+            "contentSize": "267840 B",
+            "encodingFormat": "jpeg",
+            "hostPageDisplayUrl": "https://en.wikipedia.org/wiki/Cat_intelligence",
+            "width": 1200,
+            "height": 1200,
+            "hostPageFavIconUrl": "https://www.bing.com/th?id=ODF.0QY68YH-YG5V7ZPdW4ZxaQ&pid=Api",
+            "hostPageDomainFriendlyName": "Wikipedia",
+            "thumbnail": {
+                "width": 474,
+                "height": 474
+            },
+            "imageInsightsToken": "ccid_p6/V6WAn*mid_6DD8DF58EC10C1C064861614128C3ACF5F6F34C1*simid_607992215728950289*thid_OIP.p6!_V6WAn8CkXi9rpwVTVzQHaHa",
+            "insightsMetadata": {
+                "pagesIncludingCount": 18,
+                "availableSizesCount": 13
+            },
+            "imageId": "6DD8DF58EC10C1C064861614128C3ACF5F6F34C1",
+            "accentColor": "6A4724"
+        },
+        {
+            "webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO&q=cat&id=444040BE49F0D7EE761F355D3AB328A8745D35ED&simid=608022005600225709",
+            "name": "Funny cats - part 47 (30 pics + 10 gifs) | Amazing Creatures",
+            "thumbnailUrl": "https://tse3.mm.bing.net/th?id=OIP.qbuPKr1EH9ljxpDYU_u8ywHaHa&pid=Api",
+            "datePublished": "2013-04-24T12:00:00.0000000Z",
+            "isFamilyFriendly": true,
+            "contentUrl": "http://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg",
+            "hostPageUrl": "http://amazing-creature.blogspot.com/2013/04/funny-cats-part-47-30-pics-10-gifs.html",
+            "contentSize": "98546 B",
+            "encodingFormat": "jpeg",
+            "hostPageDisplayUrl": "amazing-creature.blogspot.com/2013/04/funny-cats-part-47-30-pics-10-gifs.html",
+            "width": 960,
+            "height": 960,
+            "hostPageFavIconUrl": "https://www.bing.com/th?id=ODF.kCKFU1-d0l3Elu2Vvbpmew&pid=Api",
+            "hostPageDomainFriendlyName": "blogspot.com",
+            "thumbnail": {
+                "width": 474,
+                "height": 474
+            },
+            "imageInsightsToken": "ccid_qbuPKr1E*mid_444040BE49F0D7EE761F355D3AB328A8745D35ED*simid_608022005600225709*thid_OIP.qbuPKr1EH9ljxpDYU!_u8ywHaHa",
+            "insightsMetadata": {
+                "recipeSourcesCount": 0,
+                "pagesIncludingCount": 18,
+                "availableSizesCount": 9
+            },
+            "imageId": "444040BE49F0D7EE761F355D3AB328A8745D35ED",
+            "accentColor": "836D48"
+        }
+    ]
+}  </pre>
+                        </div>    
+                    </div>
+                </div>
+            </div><br/>
+            
+            <div class="panel-group" >
+                <div class="card card-success">
+                    <div class="card-heading">
+                        <a data-toggle="collapse" href="#collapse3" style="text-decoration:none;color:black;font-size:18px;">
+                            <button class="btn btn-success" style="width:100px">GET</button> &emsp; <b>/details </b> &emsp; Returns insights about an image, such as webpages that include the image
+                        </a>                        
+                    </div>
+                    <div id="collapse3" class="panel-collapse">
+                        <div class="card card-body">
+                            <b> Request URL </b>
+                            http://159.203.103.124:8080/imageSearch/api/v1/images/details[?insightsToken][&query] <br>
+                            <br>
+                            <b>Request Parameters </b>
+                            <table class="table table-bordered"> 
+                                <tr>
+                                    <th> Parameters </th>
+                                    <th> Required </th>
+                                    <th> Type </th>
+                                    <th> Description/value </th>
+                                </tr>
+
+                                <tr>
+                                    <td>insightsToken</td>
+                                    <td>yes</td>
+                                    <td>string</td>
+                                    <td>The token from a previous Image API call, For example: "ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509" </td>
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>The user's search query string. For example : "cats", "dogs"</td>
+                                </tr>  
+                            </table>
+
+                            <b> Sample HTTP Request </b>
+                            GET http://159.203.103.124:8080/imageSearch/api/v1/images/details?insightsToken=ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509&query=cats HTTP/1.1
+                            <br/><br>
+
+                            <b> Responses </b> 
+                            Content type : application/json </br>
+                            Code : 200 <br>
+                            Description : OK <br/><br>
+                            <b> Sample Response </b>
+                            <pre>{
+    "_type": "ImageInsights",
+    "instrumentation": {
+        "_type": "ResponseInstrumentation"
+    },
+    "imageInsightsToken": "ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509",
+    "bestRepresentativeQuery": {
+        "text": "Cute Kitten Desktop Wallpaper Cats",
+        "displayText": "Cute Kitten Desktop Wallpaper Cats",
+        "webSearchUrl": "https://www.bing.com/images/search?q=Cute+Kitten+Desktop+Wallpaper+Cats&id=DF010D14AC241C0AC39B5EAFD85F8B117825C79B&FORM=IDBQDM"
+    },
+    "imageCaption": {
+        "caption": "To celebrate the first-ever dedicated pets show, Habitat and the Perth Pet Expo are looking for the State's cutest animal companions.",
+        "dataSourceUrl": "https://au.news.yahoo.com/thewest/lifestyle/a/25457209/do-you-have-was-cutest-pet/",
+        "relatedSearches": []
+    }
+} </pre>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+<br/>
+            <div class="panel-group" >
+                <div class="card card-success">
+                    <div class="card-heading">
+                        <a data-toggle="collapse" href="#collapse1" style="text-decoration:none;color:black;font-size:18px;">
+                            <button class="btn btn-success" style="width:100px">GET</button> &emsp; <b>/trending </b> &emsp; Get currently trending images
+                        </a>                        
+                    </div>
+                    <div id="collapse1" class="panel-collapse">
+                        <div class="card card-body">
+                            <b> Request URL </b>
+                            http://159.203.103.124:8080/imageSearch/api/v1/images/trending <br><br>
+                            <b>Request Parameters </b>
+                            No Parameters <br/><br>
+                            <b> Sample HTTP Request </b>
+                            GET http://159.203.103.124:8080/imageSearch/api/v1/images/trending HTTP/1.1 <br>  <br>                          
+                            <b> Responses </b> 
+                            Content type : application/json </br>
+                            Code : 200 <br>
+                            Description : OK <br/> <br>
+                            <b> Sample Response</b>
+                            <pre>
+                            {
+    "_type": "TrendingImages",
+    "instrumentation": {
+        "_type": "ResponseInstrumentation"
+    },
+    "categories": [
+        {
+            "title": "Popular people searches",
+            "tiles": [
+                {
+                    "query": {
+                        "text": "Candice Patton",
+                        "displayText": "Candice Patton",
+                        "webSearchUrl": "https://www.bing.com/images/search?q=Candice+Patton&FORM=ISTRTH&id=7D416B7CB3BCBF877D69F25C43A0D15323EB4815&cat=Popular%20people%20searches&lpversion="
+                    },
+                    "image": {
+                        "thumbnailUrl": "https://tse4.mm.bing.net/th?id=OET.e7c42bed8b1b42308b1ab7a7642c053e&pid=Api",
+                        "contentUrl": "http://worldofblackheroes.com/wp-content/uploads/2014/05/candice-patton-1.png",
+                        "width": 640,
+                        "height": 640,
+                        "thumbnail": {
+                            "width": 474,
+                            "height": 474
+                        },
+                        "imageId": "7D416B7CB3BCBF877D69F25C43A0D15323EB4815"
+                    }
+                }
+            }]
+        }]
+    }</pre><br>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <br/>
+
+                        <div class="panel-group" >
+                <div class="card card-success">
+                    <div class="card-heading">
+                        <a data-toggle="collapse" href="#collapse4" style="text-decoration:none;color:black;font-size:18px;">
+                            <button class="btn btn-primary" style="width:100px">POST</button> &emsp; <b>/details </b> &emsp; Returns insights about an image, such as webpages that include the image.
+                        </a>                        
+                    </div>
+                    <div id="collapse4" class="panel-collapse">
+                        <div class="card card-body">
+                            <b> Request URL </b>
+                            http://159.203.103.124:8080/imageSearch/api/v1/images/details[?insightsToken][&query] <br>
+                            <br>
+                            <b>Request Parameters </b>
+                            <table class="table table-bordered"> 
+                                <tr>
+                                    <th> Parameters </th>
+                                    <th> Required </th>
+                                    <th> Type </th>
+                                    <th> Description/value </th>
+                                </tr>
+
+                                <tr>
+                                    <td>insightsToken</td>
+                                    <td>yes</td>
+                                    <td>string</td>
+                                    <td>The token from a previous Image API call, For example: "ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509" </td>
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>The user's search query string. For example : "cats", "dogs"</td>
+                                </tr>  
+                            </table>
+                            <b> Request Headers </b>
+                            <br/>
+                            <table class="table table-bordered"> 
+                                <tr>
+                                    <th> Parameters </th>
+                                    <th> Required </th>
+                                    <th> Type </th>
+                                    <th> Description/value </th>
+                                </tr>
+                                <tr>
+                                    <td>Content-Type</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>Media type of the body sent to the API. For example: "multipart/form-data" </td>
+                                </tr>
+                            </table>
+                            <b>Request Body </b>
+                            <table class="table table-bordered"> 
+                                <tr>
+                                    <th> Parameters </th>
+                                    <th> Required </th>
+                                    <th> Type </th>
+                                    <th> Description/value </th>
+                                </tr>
+                                <tr>
+                                    <td>imgurl</td>
+                                    <td>optional</td>
+                                    <td>string</td>
+                                    <td>url of the image to get insights. </td>
+                                </tr>
+                            </table>
+                                <br/>
+                                <b> Sample HTTP Request </b>
+                                POST http://159.203.103.124:8080/imageSearch/api/v1/images/details?insightsToken=ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509&query=cats HTTP/1.1
+                                <br/><br>                                
+                                <b> Responses </b> 
+                                Content type : application/json </br>
+                                Code : 200 <br>
+                                Description : OK <br/> <br>
+                                <b> Sample responses</b>
+                                <pre>
+                                    {
+    "_type": "ImageInsights",
+    "instrumentation": {
+        "_type": "ResponseInstrumentation"
+    },
+    "imageInsightsToken": "ccid_QkKAENUn*mid_DF010D14AC241C0AC39B5EAFD85F8B117825C79B*simid_608001210598098509",
+    "bestRepresentativeQuery": {
+        "text": "Cute Kitten Desktop Wallpaper Cats",
+        "displayText": "Cute Kitten Desktop Wallpaper Cats",
+        "webSearchUrl": "https://www.bing.com/images/search?q=Cute+Kitten+Desktop+Wallpaper+Cats&id=DF010D14AC241C0AC39B5EAFD85F8B117825C79B&FORM=IDBQDM"
+    },
+    "imageCaption": {
+        "caption": "To celebrate the first-ever dedicated pets show, Habitat and the Perth Pet Expo are looking for the State's cutest animal companions.",
+        "dataSourceUrl": "https://au.news.yahoo.com/thewest/lifestyle/a/25457209/do-you-have-was-cutest-pet/",
+        "relatedSearches": []
+    }
+}
+                                </pre>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
